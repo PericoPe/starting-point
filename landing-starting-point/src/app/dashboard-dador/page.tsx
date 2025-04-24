@@ -2,8 +2,127 @@
 import Link from "next/link";
 import { useState } from "react";
 
+interface Oferta {
+  transportista: string;
+  valor: number;
+}
+interface Carga {
+  id: number;
+  origen: string;
+  destino: string;
+  fecha: string;
+  carga: string;
+  observaciones: string;
+  ofertas: Oferta[];
+}
+
 export default function DashboardDador() {
-  const [cargas, setCargas] = useState([]);
+  // Mock de transportistas
+  const transportistasMock = [
+    {
+      nombre: "Transporte Sur",
+      avatar: "https://ui-avatars.com/api/?name=Transporte+Sur&background=FF6600&color=fff&size=128",
+      reputacion: 4.8,
+    },
+    {
+      nombre: "Logística Norte",
+      avatar: "https://ui-avatars.com/api/?name=Logistica+Norte&background=0077B6&color=fff&size=128",
+      reputacion: 4.5,
+    },
+    {
+      nombre: "Rápido Cargo",
+      avatar: "https://ui-avatars.com/api/?name=Rapido+Cargo&background=00B686&color=fff&size=128",
+      reputacion: 4.2,
+    },
+    {
+      nombre: "Flete Express",
+      avatar: "https://ui-avatars.com/api/?name=Flete+Express&background=FFD166&color=333&size=128",
+      reputacion: 4.9,
+    },
+    {
+      nombre: "TransAndes",
+      avatar: "https://ui-avatars.com/api/?name=TransAndes&background=EF476F&color=fff&size=128",
+      reputacion: 4.6,
+    },
+  ];
+
+  // Mock de cargas con ofertas
+  const cargasEjemplo: Carga[] = [
+    {
+      id: 1,
+      origen: "Buenos Aires, CABA",
+      destino: "Córdoba, Capital",
+      fecha: "2025-04-30",
+      carga: "Bebidas",
+      observaciones: "Carga refrigerada."
+      ,
+      ofertas: [
+        { transportista: transportistasMock[0].nombre, valor: 1500000 },
+        { transportista: transportistasMock[1].nombre, valor: 1450000 },
+        { transportista: transportistasMock[2].nombre, valor: 1525000 },
+        { transportista: transportistasMock[3].nombre, valor: 1490000 },
+      ]
+    },
+    {
+      id: 2,
+      origen: "Rosario, Santa Fe",
+      destino: "Mendoza, Capital",
+      fecha: "2025-05-02",
+      carga: "Granos",
+      observaciones: "Carga a granel, silo bolsa.",
+      ofertas: [
+        { transportista: transportistasMock[4].nombre, valor: 2100000 },
+        { transportista: transportistasMock[0].nombre, valor: 2080000 },
+        { transportista: transportistasMock[2].nombre, valor: 2150000 },
+        { transportista: transportistasMock[1].nombre, valor: 2050000 },
+      ]
+    },
+    {
+      id: 3,
+      origen: "Mar del Plata",
+      destino: "Bahía Blanca",
+      fecha: "2025-04-28",
+      carga: "Pescado fresco",
+      observaciones: "Entrega urgente.",
+      ofertas: [
+        { transportista: transportistasMock[3].nombre, valor: 850000 },
+        { transportista: transportistasMock[2].nombre, valor: 820000 },
+        { transportista: transportistasMock[0].nombre, valor: 870000 },
+        { transportista: transportistasMock[4].nombre, valor: 900000 },
+        { transportista: transportistasMock[1].nombre, valor: 830000 },
+      ]
+    },
+    {
+      id: 4,
+      origen: "Tucumán",
+      destino: "Salta",
+      fecha: "2025-05-04",
+      carga: "Azúcar",
+      observaciones: "Carga paletizada, retiro a coordinar.",
+      ofertas: [
+        { transportista: transportistasMock[1].nombre, valor: 1200000 },
+        { transportista: transportistasMock[4].nombre, valor: 1225000 },
+        { transportista: transportistasMock[0].nombre, valor: 1190000 },
+        { transportista: transportistasMock[2].nombre, valor: 1210000 },
+      ]
+    },
+    {
+      id: 5,
+      origen: "La Plata",
+      destino: "Neuquén",
+      fecha: "2025-05-10",
+      carga: "Materiales de construcción",
+      observaciones: "Carga pesada, descarga con autoelevador.",
+      ofertas: [
+        { transportista: transportistasMock[2].nombre, valor: 1850000 },
+        { transportista: transportistasMock[0].nombre, valor: 1820000 },
+        { transportista: transportistasMock[3].nombre, valor: 1880000 },
+        { transportista: transportistasMock[1].nombre, valor: 1800000 },
+      ]
+    }
+  ];
+
+  const [cargas, setCargas] = useState<Carga[]>(cargasEjemplo);
   const [form, setForm] = useState({
     origen: '',
     destino: '',
@@ -14,130 +133,143 @@ export default function DashboardDador() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [selectedCarga, setSelectedCarga] = useState<Carga | null>(null);
 
-  const handleChange = (e) => {
+  // Simulación: al crear una carga, algunas reciben ofertas mock
+  const ofertasMock: Oferta[] = [
+    { transportista: "Transporte Sur", valor: 1500000 },
+    { transportista: "Logística Norte", valor: 1450000 },
+    { transportista: "Rápido Cargo", valor: 1525000 }
+  ];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess('');
-    // Validación simple
     if (!form.origen || !form.destino || !form.fecha || !form.carga) {
       setError('Por favor completa todos los campos obligatorios.');
       setLoading(false);
       return;
     }
+    // Simula que 50% de las cargas reciben ofertas
+    const recibeOfertas = Math.random() > 0.5;
     setCargas([
-      ...cargas,
       {
         ...form,
         id: Date.now(),
-        ofertas: [] // Aquí se guardarán las ofertas recibidas
-      }
+        ofertas: recibeOfertas ? ofertasMock.slice(0, Math.floor(Math.random() * ofertasMock.length) + 1) : []
+      },
+      ...cargas
     ]);
     setLoading(false);
     setSuccess('Carga publicada con éxito.');
     setForm({ origen: '', destino: '', fecha: '', carga: '', observaciones: '' });
+    setTimeout(() => setSuccess(''), 2000);
   };
+
+  const handleVerOfertas = (carga: Carga) => {
+    setSelectedCarga(carga);
+  };
+
+  const handleCerrarOfertas = () => setSelectedCarga(null);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm w-full">
-        <nav className="max-w-4xl mx-auto flex items-center justify-between px-6 py-4">
+        <nav className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
           <span className="font-extrabold text-2xl tracking-tight text-orange-500">Starting Point</span>
           <Link href="/" className="px-4 py-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow transition">Salir</Link>
         </nav>
       </header>
-      <main className="max-w-4xl mx-auto py-8 px-4 flex flex-col gap-8">
-        {/* Resumen */}
-        <section className="flex flex-col md:flex-row gap-4 mb-2">
-          <div className="flex-1 bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <span className="text-3xl font-bold text-orange-500">{cargas.length}</span>
-            <span className="text-gray-700">Cargas publicadas</span>
-          </div>
-          <div className="flex-1 bg-white rounded-xl shadow p-4 flex flex-col items-center">
-            <span className="text-3xl font-bold text-cyan-700">{cargas.reduce((acc, c) => acc + (c.ofertas?.length || 0), 0)}</span>
-            <span className="text-gray-700">Ofertas recibidas</span>
-          </div>
-        </section>
-        {/* Cargas con ofertas */}
-        <section className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <span>Con ofertas</span>
-            <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">{cargas.filter(c => c.ofertas && c.ofertas.length > 0).length}</span>
-          </h2>
-          {cargas.filter(c => c.ofertas && c.ofertas.length > 0).length === 0 ? (
-            <p className="text-gray-400">Ninguna de tus cargas recibió ofertas aún.</p>
-          ) : (
-            <ul className="w-full grid md:grid-cols-2 gap-4">
-              {cargas.filter(c => c.ofertas && c.ofertas.length > 0).map((carga, idx) => (
-                <li key={carga.id || idx} className="border rounded-lg p-4 flex flex-col bg-green-50">
-                  <span className="font-semibold text-gray-700">{carga.origen} → {carga.destino}</span>
-                  <span className="text-xs text-gray-500">{carga.fecha}</span>
-                  <span className="text-sm text-gray-600">{carga.carga}</span>
-                  {carga.observaciones && <span className="text-xs text-gray-400">{carga.observaciones}</span>}
-                  <div className="mt-2">
-                    <span className="text-xs text-gray-700 font-semibold">Ofertas recibidas:</span>
-                    <ul className="mt-1">
-                      {carga.ofertas.map((oferta, i) => (
-                        <li key={i} className="text-xs text-green-700">{oferta.transportista}: ${oferta.valor.toLocaleString()}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-        {/* Cargas sin ofertas */}
-        <section className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <span>Sin ofertas</span>
-            <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">{cargas.filter(c => !c.ofertas || c.ofertas.length === 0).length}</span>
-          </h2>
-          {cargas.filter(c => !c.ofertas || c.ofertas.length === 0).length === 0 ? (
-            <p className="text-gray-400">Todas tus cargas recibieron ofertas.</p>
-          ) : (
-            <ul className="w-full grid md:grid-cols-2 gap-4">
-              {cargas.filter(c => !c.ofertas || c.ofertas.length === 0).map((carga, idx) => (
-                <li key={carga.id || idx} className="border rounded-lg p-4 flex flex-col bg-gray-50">
-                  <span className="font-semibold text-gray-700">{carga.origen} → {carga.destino}</span>
-                  <span className="text-xs text-gray-500">{carga.fecha}</span>
-                  <span className="text-sm text-gray-600">{carga.carga}</span>
-                  {carga.observaciones && <span className="text-xs text-gray-400">{carga.observaciones}</span>}
-                  <span className="text-xs text-gray-400 mt-2">Sin ofertas aún</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-        {/* Tips para mejores resultados */}
-        <section className="bg-cyan-50 rounded-xl shadow-md p-6 flex flex-col items-center mb-4">
-          <h2 className="text-lg font-bold text-cyan-700 mb-2">Tips para mejores resultados</h2>
-          <ul className="list-disc text-sm text-cyan-900 pl-4">
-            <li>Publica tus cargas con anticipación para recibir más ofertas.</li>
-            <li>Incluye observaciones claras sobre horarios, requisitos y condiciones.</li>
-            <li>Revisa periódicamente las ofertas y responde rápido para asegurar la mejor opción.</li>
-          </ul>
-        </section>
-        {/* Publicar nueva carga */}
-        <section className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Publicar nueva carga</h2>
-          <form className="w-full max-w-md flex flex-col gap-4" onSubmit={handleSubmit}>
-            <input className="border border-gray-300 rounded-lg px-4 py-2" type="text" name="origen" placeholder="Origen" value={form.origen} onChange={handleChange} required />
-            <input className="border border-gray-300 rounded-lg px-4 py-2" type="text" name="destino" placeholder="Destino" value={form.destino} onChange={handleChange} required />
-            <input className="border border-gray-300 rounded-lg px-4 py-2" type="date" name="fecha" placeholder="Fecha" value={form.fecha} onChange={handleChange} required />
-            <input className="border border-gray-300 rounded-lg px-4 py-2" type="text" name="carga" placeholder="Tipo de carga" value={form.carga} onChange={handleChange} required />
-            <textarea className="border border-gray-300 rounded-lg px-4 py-2" name="observaciones" placeholder="Observaciones (opcional)" value={form.observaciones} onChange={handleChange} />
-            {error && <span className="text-red-500 text-xs">{error}</span>}
-            {success && <span className="text-green-600 text-xs">{success}</span>}
-            <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold shadow mt-2" disabled={loading}>
-              {loading ? "Publicando..." : "Publicar carga"}
+      <main className="max-w-5xl mx-auto py-8 px-4 flex flex-col gap-8">
+        {/* FORMULARIO CREAR CARGA */}
+        <section className="bg-white rounded-xl shadow-md p-6 mb-2">
+          <h2 className="text-xl font-bold text-orange-600 mb-4">Crear nueva carga</h2>
+          <form className="flex flex-col md:flex-row md:items-end gap-4" onSubmit={handleSubmit}>
+            <input className="border border-gray-300 rounded-lg px-4 py-2 flex-1" type="text" name="origen" placeholder="Origen" value={form.origen} onChange={handleChange} required />
+            <input className="border border-gray-300 rounded-lg px-4 py-2 flex-1" type="text" name="destino" placeholder="Destino" value={form.destino} onChange={handleChange} required />
+            <input className="border border-gray-300 rounded-lg px-4 py-2 flex-1" type="date" name="fecha" value={form.fecha} onChange={handleChange} required />
+            <input className="border border-gray-300 rounded-lg px-4 py-2 flex-1" type="text" name="carga" placeholder="Tipo de carga" value={form.carga} onChange={handleChange} required />
+            <textarea className="border border-gray-300 rounded-lg px-4 py-2 flex-1" name="observaciones" placeholder="Observaciones (opcional)" value={form.observaciones} onChange={handleChange} rows={1} />
+            <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold shadow min-w-[120px]" disabled={loading}>
+              {loading ? "Publicando..." : "Crear carga"}
             </button>
           </form>
+          {error && <span className="text-red-500 text-xs mt-2 block">{error}</span>}
+          {success && <span className="text-green-600 text-xs mt-2 block">{success}</span>}
+        </section>
+        {/* GRILLA DE CARGAS + PANEL OFERTAS */}
+        <section className="flex flex-col md:flex-row gap-6">
+          {/* Cards de cargas */}
+          <div className="flex-1">
+            <h2 className="text-lg font-bold mb-3 text-gray-900">Mis cargas publicadas</h2>
+            {cargas.length === 0 ? (
+              <div className="text-gray-400 text-center py-8">No publicaste cargas aún.</div>
+            ) : (
+              <ul className="flex flex-col gap-4">
+                {cargas.map((carga) => (
+                  <li key={carga.id} className={`rounded-lg border p-4 flex flex-col md:flex-row md:items-center gap-2 shadow-sm transition ${carga.ofertas.length > 0 ? 'bg-green-50 border-green-300' : 'bg-gray-50 border-gray-200'}`}>
+                    <div className="flex-1">
+                      <div className="flex flex-wrap gap-2 items-center">
+                        <span className="font-semibold text-gray-800">{carga.origen} → {carga.destino}</span>
+                        <span className="text-xs text-gray-500">{carga.fecha}</span>
+                        <span className="text-sm text-gray-600">{carga.carga}</span>
+                      </div>
+                      {carga.observaciones && <span className="block text-xs text-gray-400 mt-1">{carga.observaciones}</span>}
+                    </div>
+                    <div className="flex flex-col gap-2 items-end">
+                      <button
+                        className={`px-4 py-1 rounded text-sm font-semibold shadow transition ${carga.ofertas.length > 0 ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-300 text-gray-700 cursor-not-allowed'}`}
+                        onClick={() => carga.ofertas.length > 0 && handleVerOfertas(carga)}
+                        disabled={carga.ofertas.length === 0}
+                      >
+                        Ver ofertas
+                      </button>
+                      <span className="text-xs text-gray-500">{carga.ofertas.length} oferta{carga.ofertas.length !== 1 ? 's' : ''}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          {/* Panel de ofertas (desktop) */}
+          <div className="w-full md:w-[340px] md:sticky md:top-28 bg-white rounded-xl shadow-md p-4 h-fit min-h-[180px] mt-6 md:mt-0">
+            <h3 className="font-bold text-gray-900 mb-2 text-lg flex items-center gap-2">
+              Ofertas recibidas
+              {selectedCarga && <button className="ml-auto text-xs text-orange-500 underline" onClick={handleCerrarOfertas}>Cerrar</button>}
+            </h3>
+            {!selectedCarga ? (
+              <div className="text-gray-400 text-center">Seleccioná una carga con ofertas para ver el detalle.</div>
+            ) : (
+              <ul className="divide-y">
+                {selectedCarga.ofertas.map((oferta, i) => (
+                  <li key={i} className="py-2 flex flex-col gap-1">
+                    {/* Avatar y perfil del transportista */}
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={
+                          transportistasMock.find(t => t.nombre === oferta.transportista)?.avatar ||
+                          "https://ui-avatars.com/api/?name=Transportista&background=888&color=fff&size=128"
+                        }
+                        alt={oferta.transportista}
+                        className="w-8 h-8 rounded-full border shadow"
+                      />
+                      <span className="font-semibold text-green-700">{oferta.transportista}</span>
+                      <span className="ml-1 text-xs text-yellow-500 flex items-center">
+                        ★ {transportistasMock.find(t => t.nombre === oferta.transportista)?.reputacion ?? 4.0}
+                      </span>
+                    </div>
+                    <span className="text-gray-700">${oferta.valor.toLocaleString()}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </section>
       </main>
     </div>
