@@ -1,6 +1,0 @@
-{
-  "/dashboard-dador/page": "app/dashboard-dador/page.js",
-  "/page": "app/page.js",
-  "/registro-dador/page": "app/registro-dador/page.js",
-  "/registro-transportista/page": "app/registro-transportista/page.js"
-}
