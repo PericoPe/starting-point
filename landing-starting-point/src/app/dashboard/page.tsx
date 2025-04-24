@@ -126,7 +126,26 @@ export default function Dashboard() {
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm w-full">
         <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           <Link href="/" className="font-extrabold text-2xl tracking-tight text-orange-500 hover:underline focus:outline-none">Starting Point</Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 relative">
+            <div className="relative" ref={menuRef}>
+              <img
+                src={perfilMock.avatar}
+                alt="Perfil"
+                className="w-10 h-10 rounded-full border-2 border-orange-400 shadow-sm object-cover cursor-pointer"
+                title="Perfil"
+                onClick={() => setShowMenu((v) => !v)}
+              />
+              {showMenu && (
+                <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-30 animate-fade-in flex flex-col">
+                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-gray-800" onClick={() => setShowMenu(false)}>Ver perfil</button>
+                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-gray-800" onClick={() => setShowMenu(false)}>Configuración</button>
+                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-gray-800" onClick={() => setShowMenu(false)}>Gestionar unidades</button>
+                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-gray-800" onClick={() => setShowMenu(false)}>Documentación</button>
+                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-red-500" onClick={() => setShowMenu(false)}>Eliminar cuenta</button>
+                  <button className="text-left px-4 py-2 hover:bg-orange-100 text-gray-700 border-t border-gray-200" onClick={() => setShowMenu(false)}>Cerrar sesión</button>
+                </div>
+              )}
+            </div>
             <Link href="/" className="px-4 py-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow transition">Salir</Link>
           </div>
         </nav>

@@ -101,16 +101,38 @@ export default function Home() {
         </section>
 
         {/* TESTIMONIOS */}
-        <section id="testimonios" className="py-8 px-2 bg-white text-center">
-          <h2 className="text-xl md:text-2xl font-bold text-orange-500 mb-4">Testimonios reales</h2>
-          <div className="max-w-2xl mx-auto flex flex-col gap-4">
-            <div className="bg-gray-50 rounded p-4">
-              <p className="italic text-gray-700 mb-1">"Gracias a Starting Point, mis viajes de regreso ahora son rentables y fáciles de gestionar. ¡La recomiendo a todos mis colegas!"</p>
+        <section id="testimonios" className="py-12 px-2 bg-white text-center">
+          <h2 className="text-xl md:text-2xl font-bold text-orange-500 mb-8">Testimonios reales</h2>
+          <div className="max-w-6xl mx-auto flex flex-row flex-wrap md:flex-nowrap gap-4 justify-center items-stretch">
+            {/* Testimonio 1 */}
+            <div className="flex-1 min-w-[180px] max-w-xs bg-gray-50 rounded-xl shadow-md p-6 flex flex-col items-center">
+              <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&h=400&fit=facearea&facepad=2" alt="Testimonio 1" className="w-20 h-20 rounded-full object-cover mb-3 border-4 border-orange-100" />
+              <p className="italic text-gray-700 mb-2">"Gracias a Starting Point, mis viajes de regreso ahora son rentables y fáciles de gestionar. ¡La recomiendo a todos mis colegas!"</p>
               <span className="font-semibold text-orange-600">Juan Pérez, Transportista</span>
             </div>
-            <div className="bg-gray-50 rounded p-4">
-              <p className="italic text-gray-700 mb-1">"Encontré transporte para mi carga en minutos y a mejor precio que nunca. El proceso es súper sencillo."</p>
+            {/* Testimonio 2 */}
+            <div className="flex-1 min-w-[180px] max-w-xs bg-gray-50 rounded-xl shadow-md p-6 flex flex-col items-center">
+              <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=400&fit=facearea&facepad=2" alt="Testimonio 2" className="w-20 h-20 rounded-full object-cover mb-3 border-4 border-orange-100" />
+              <p className="italic text-gray-700 mb-2">"Encontré transporte para mi carga en minutos y a mejor precio que nunca. El proceso es súper sencillo."</p>
               <span className="font-semibold text-cyan-700">María González, Empresaria</span>
+            </div>
+            {/* Testimonio 3 */}
+            <div className="flex-1 min-w-[180px] max-w-xs bg-gray-50 rounded-xl shadow-md p-6 flex flex-col items-center">
+              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=facearea&facepad=2" alt="Testimonio 3" className="w-20 h-20 rounded-full object-cover mb-3 border-4 border-orange-100" />
+              <p className="italic text-gray-700 mb-2">"La plataforma me ayudó a optimizar mis rutas y reducir costos. ¡Excelente servicio!"</p>
+              <span className="font-semibold text-orange-600">Carlos Díaz, Fletero</span>
+            </div>
+            {/* Testimonio 4 */}
+            <div className="flex-1 min-w-[180px] max-w-xs bg-gray-50 rounded-xl shadow-md p-6 flex flex-col items-center">
+              <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=400&fit=facearea&facepad=2" alt="Testimonio 4" className="w-20 h-20 rounded-full object-cover mb-3 border-4 border-orange-100" />
+              <p className="italic text-gray-700 mb-2">"Nunca fue tan fácil encontrar camiones confiables para mis envíos. ¡Muy recomendable!"</p>
+              <span className="font-semibold text-cyan-700">Lucía Romero, Pyme</span>
+            </div>
+            {/* Testimonio 5 */}
+            <div className="flex-1 min-w-[180px] max-w-xs bg-gray-50 rounded-xl shadow-md p-6 flex flex-col items-center">
+              <img src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&h=400&fit=facearea&facepad=2" alt="Testimonio 5" className="w-20 h-20 rounded-full object-cover mb-3 border-4 border-orange-100" />
+              <p className="italic text-gray-700 mb-2">"El proceso fue rápido, seguro y transparente. ¡Volveré a usarla!"</p>
+              <span className="font-semibold text-orange-600">Martín López, Productor</span>
             </div>
           </div>
         </section>
@@ -133,6 +155,18 @@ export default function Home() {
           </a>
         </footer>
       </main>
+    <footer className="w-full bg-gray-100 border-t border-gray-200 py-6 mt-8">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-2 text-sm text-gray-600">
+        <div className="flex flex-wrap gap-4 mb-2 md:mb-0">
+          <Link href="/politica-privacidad" className="hover:underline hover:text-orange-500">Política de Privacidad</Link>
+          <Link href="/terminos-condiciones" className="hover:underline hover:text-orange-500">Términos y Condiciones</Link>
+          <Link href="/politica-cookies" className="hover:underline hover:text-orange-500">Política de Cookies</Link>
+          <Link href="/legales" className="hover:underline hover:text-orange-500">Legales</Link>
+          <Link href="/faq" className="hover:underline hover:text-orange-500">FAQ</Link>
+        </div>
+        <div className="text-xs text-gray-400">&copy; {new Date().getFullYear()} Starting Point. Todos los derechos reservados.</div>
+      </div>
+    </footer>
     </>
   );
 }
