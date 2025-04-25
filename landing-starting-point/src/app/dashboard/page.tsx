@@ -79,6 +79,16 @@ interface Postulacion {
 }
 
 export default function Dashboard() {
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
+
+  const handleFeedbackSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("¡Gracias por tu feedback!");
+    setShowFeedback(false);
+    setFeedbackText("");
+  };
+
   const [cargas] = useState<Carga[]>(cargasMock);
   const [provFiltro, setProvFiltro] = useState('');
   const [tipoFiltro, setTipoFiltro] = useState('');
@@ -357,6 +367,41 @@ export default function Dashboard() {
           </div>
         </div>
       )}
-    </div>
+    {/* Floating Feedback Button */}
+    <button
+      className="fixed bottom-6 right-6 z-50 bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded-full shadow-lg flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+      style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.15)' }}
+      onClick={() => setShowFeedback(true)}
+      aria-label="Reportar un problema o sugerencia"
+    >
+      <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h6m-6 4h10" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z" />
+      </svg>
+      Reportar un problema
+    </button>
+    {/* Feedback Modal */}
+    {showFeedback && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+        <div className="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full flex flex-col items-center relative">
+          <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setShowFeedback(false)}>&times;</button>
+          <h2 className="text-xl font-bold text-gray-800 mb-3">Reportar un problema o sugerencia</h2>
+          <form className="w-full flex flex-col gap-3" onSubmit={handleFeedbackSubmit}>
+            <textarea
+              className="border border-gray-300 rounded-lg px-4 py-2 min-h-[80px] resize-none focus:outline-none focus:ring-2 focus:ring-orange-400"
+              placeholder="Describe el problema o sugerencia..."
+              value={feedbackText}
+              onChange={e => setFeedbackText(e.target.value)}
+              required
+            />
+            <div className="flex gap-2 justify-end mt-2">
+              <button type="button" className="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 font-semibold" onClick={() => setShowFeedback(false)}>Cancelar</button>
+              <button type="submit" className="px-4 py-2 rounded bg-orange-500 text-white font-semibold hover:bg-orange-600">Enviar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    )}
+  </div>
   );
 }
