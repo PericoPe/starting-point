@@ -17,6 +17,7 @@ interface Carga {
 }
 
 export default function DashboardDador() {
+  const [showMenu, setShowMenu] = useState(false);
   // Mock de transportistas
   const transportistasMock = [
     {
@@ -180,11 +181,31 @@ export default function DashboardDador() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm w-full">
-        <nav className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
-          <span className="font-extrabold text-2xl tracking-tight text-orange-500">Starting Point</span>
-          <Link href="/" className="px-4 py-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow transition">Salir</Link>
-        </nav>
+      {/* Header propio dashboard dador */}
+      <header className="w-full flex items-center justify-between px-6 py-4 bg-white shadow-sm border-b mb-6">
+        <Link href="/" className="font-extrabold text-2xl tracking-tight text-orange-500 hover:underline focus:outline-none">Starting Point</Link>
+        <div className="flex items-center gap-4">
+          <div className="relative">
+            <button
+              className="focus:outline-none"
+              onClick={() => setShowMenu((v: boolean) => !v)}
+            >
+              <img src="https://ui-avatars.com/api/?name=Dador+Demo&background=FF6600&color=fff&size=96" alt="Avatar" className="w-10 h-10 rounded-full border-2 border-orange-400" />
+            </button>
+            {showMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-20 flex flex-col animate-fade-in">
+                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full" onClick={() => { setShowMenu(false); alert('Configurar perfil (demo)'); }}>Configurar perfil</button>
+                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full" onClick={() => { setShowMenu(false); alert('Cerrar sesión (demo)'); }}>Cerrar sesión</button>
+              </div>
+            )}
+          </div>
+          <button
+            className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-semibold shadow border border-gray-300"
+            onClick={() => { alert('Salir (demo)'); }}
+          >
+            Salir
+          </button>
+        </div>
       </header>
       <main className="max-w-5xl mx-auto py-8 px-4 flex flex-col gap-8">
         {/* FORMULARIO CREAR CARGA */}

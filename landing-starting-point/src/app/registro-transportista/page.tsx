@@ -105,8 +105,8 @@ const [modelosDisponibles, setModelosDisponibles] = useState<string[]>([]);
       setShowThanks(true);
       setTimeout(() => {
         router.push('/dashboard');
-      }, 2200);
-    }, 1200);
+      }, 200);
+    }, 100);
   };
 
 

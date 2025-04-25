@@ -139,33 +139,24 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header tipo landing */}
-      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm w-full">
-        <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-          <Link href="/" className="font-extrabold text-2xl tracking-tight text-orange-500 hover:underline focus:outline-none">Starting Point</Link>
-          <div className="flex items-center gap-4 relative">
-            <div className="relative" ref={menuRef}>
-              <img
-                src={perfilMock.avatar}
-                alt="Perfil"
-                className="w-10 h-10 rounded-full border-2 border-orange-400 shadow-sm object-cover cursor-pointer"
-                title="Perfil"
-                onClick={() => setShowMenu((v) => !v)}
-              />
-              {showMenu && (
-                <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-30 animate-fade-in flex flex-col">
-                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-gray-800" onClick={() => setShowMenu(false)}>Ver perfil</button>
-                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-gray-800" onClick={() => setShowMenu(false)}>Configuración</button>
-                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-gray-800" onClick={() => setShowMenu(false)}>Gestionar unidades</button>
-                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-gray-800" onClick={() => setShowMenu(false)}>Documentación</button>
-                  <button className="text-left px-4 py-2 hover:bg-orange-50 text-red-500" onClick={() => setShowMenu(false)}>Eliminar cuenta</button>
-                  <button className="text-left px-4 py-2 hover:bg-orange-100 text-gray-700 border-t border-gray-200" onClick={() => setShowMenu(false)}>Cerrar sesión</button>
-                </div>
-              )}
-            </div>
-            <Link href="/" className="px-4 py-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow transition">Salir</Link>
+      {/* Header propio del dashboard */}
+      <header className="w-full flex items-center justify-between px-6 py-4 bg-white shadow-sm border-b mb-6">
+        <div className="flex items-center gap-3">
+          <img src={perfilMock.avatar} alt="Avatar" className="w-12 h-12 rounded-full border-2 border-orange-400" />
+          <div>
+            <div className="font-bold text-lg text-gray-900">{perfilMock.nombre}</div>
+            <div className="text-xs text-gray-500">{perfilMock.verificado ? '✔ Verificado' : 'No verificado'}</div>
           </div>
-        </nav>
+        </div>
+        <div className="flex items-center gap-4">
+          <Link href="/" className="text-orange-500 hover:underline font-semibold">Ir a Starting Point</Link>
+          <button
+            className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-semibold shadow border border-gray-300"
+            onClick={() => {/* lógica de logout aquí */ alert('Cerrar sesión (demo)'); }}
+          >
+            Salir
+          </button>
+        </div>
       </header>
       <main className="max-w-7xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Perfil */}
@@ -187,13 +178,13 @@ export default function Dashboard() {
             <div className="flex flex-wrap gap-4 mb-4">
               <select className="border rounded px-2 py-1" value={provFiltro} onChange={e => setProvFiltro(e.target.value)}>
                 <option value="">Todas las provincias</option>
-                {provinciasTodas.map((prov, i) => (
+                {provinciasTodas.map((prov: string, i: number) => (
                   <option key={i} value={prov}>{prov}</option>
                 ))}
               </select>
               <select className="border rounded px-2 py-1" value={tipoFiltro} onChange={e => setTipoFiltro(e.target.value)}>
                 <option value="">Todos los tipos</option>
-                {tiposCarga.map((tipo, i) => (
+                {tiposCarga.map((tipo: string, i: number) => (
                   <option key={i} value={tipo}>{tipo}</option>
                 ))}
               </select>
@@ -202,12 +193,12 @@ export default function Dashboard() {
             <div className="relative">
               <div className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide" style={{scrollBehavior:'smooth'}}>
                 {cargas
-                  .filter(c => provinciasPreferidas.includes(c.provincia))
-                  .filter(c => !provFiltro || c.provincia === provFiltro)
-                  .filter(c => !tipoFiltro || c.carga === tipoFiltro)
+                  .filter((c: Carga) => provinciasPreferidas.includes(c.provincia))
+                  .filter((c: Carga) => !provFiltro || c.provincia === provFiltro)
+                  .filter((c: Carga) => !tipoFiltro || c.carga === tipoFiltro)
                   .slice(scrollIndex, scrollIndex + cardsPorVista)
-                  .map((carga) => {
-                    const yaPostulado = postulaciones.some(p => p.carga === carga.carga && p.destino === carga.destino && p.fecha === carga.fecha);
+                  .map((carga: Carga) => {
+                    const yaPostulado = postulaciones.some((p: Postulacion) => p.carga === carga.carga && p.destino === carga.destino && p.fecha === carga.fecha);
                     return (
                       <div
                         key={carga.id}
@@ -257,7 +248,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-xl shadow-md p-6">
             <h3 className="text-lg font-bold mb-4 text-cyan-700">Mis postulaciones</h3>
             <ul className="divide-y">
-              {postulaciones.map((p) => (
+              {postulaciones.map((p: Postulacion) => (
                 <li key={p.id} className="py-2 flex justify-between items-center">
                   <span>{p.carga} → {p.destino}</span>
                   <span className={p.estado === "Aceptada" ? "text-green-600" : "text-orange-500"}>{p.estado}</span>
@@ -274,7 +265,7 @@ export default function Dashboard() {
             <h3 className="text-lg font-bold mb-4 text-green-700">Viajes en curso</h3>
             <ul className="divide-y">
               {enCursoMock.length === 0 && <li className="text-gray-400">No tienes viajes en curso.</li>}
-              {enCursoMock.map((v) => (
+              {enCursoMock.map((v: any) => (
                 <li key={v.id} className="py-2 flex justify-between items-center">
                   <span>{v.carga} → {v.destino}</span>
                   <span className="text-xs text-gray-400">{v.fecha}</span>
@@ -288,7 +279,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-xl shadow-md p-6">
             <h3 className="text-lg font-bold mb-4 text-gray-700">Historial de viajes</h3>
             <ul className="divide-y">
-              {historialMock.map((h) => (
+              {historialMock.map((h: any) => (
                 <li key={h.id} className="py-2 flex justify-between items-center">
                   <span>{h.carga} → {h.destino}</span>
                   <span className="text-xs text-gray-400">{h.fecha}</span>
@@ -302,7 +293,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-xl shadow-md p-6">
             <h3 className="text-lg font-bold mb-4 text-red-700">Documentación y alertas</h3>
             <ul className="divide-y">
-              {docsMock.map((doc, i) => (
+              {docsMock.map((doc: any, i: number) => (
                 <li key={i} className="py-2 flex justify-between items-center">
                   <span>{doc.nombre}</span>
                   <span className={doc.estado === "ok" ? "text-green-600" : "text-red-500 font-bold"}>{doc.estado === "ok" ? "Vigente" : "Pronto a vencer"}</span>

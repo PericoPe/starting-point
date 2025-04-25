@@ -2,12 +2,12 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function BienvenidaTransportista() {
+export default function BienvenidaDador() {
   const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("/dashboard");
+      router.push("/dashboard-dador");
     }, 1000); // 1 segundo de espera
     return () => clearTimeout(timer);
   }, [router]);
@@ -21,13 +21,13 @@ export default function BienvenidaTransportista() {
         </svg>
         <h1 className="text-2xl font-bold text-gray-900 mb-2 text-center">¡Gracias por registrarte!</h1>
         <p className="text-gray-600 mb-4 text-center">
-          Tu perfil de transportista fue creado exitosamente.<br />
-          Pronto podrás postularte a nuevas oportunidades.
+          Tu perfil de dador fue creado exitosamente.<br />
+          Pronto podrás publicar nuevas cargas y oportunidades.
         </p>
         <span className="text-orange-500 font-semibold">Redirigiendo a tu panel...</span>
         <button
           className="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold shadow focus:outline-none focus:ring-2 focus:ring-orange-300"
-          onClick={() => router.push("/dashboard")}
+          onClick={() => router.push("/dashboard-dador")}
         >
           Ir al Dashboard ahora
         </button>

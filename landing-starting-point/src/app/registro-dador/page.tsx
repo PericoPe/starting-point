@@ -14,7 +14,7 @@ export default function RegistroDador() {
     provincia: string;
     localidad: string;
     tipoEmpresa: string;
-
+    web?: string;
     responsable: string;
     logo?: File;
     constanciaCuit?: File;
@@ -29,7 +29,7 @@ export default function RegistroDador() {
     provincia: '',
     localidad: '',
     tipoEmpresa: '',
-
+    web: '',
     responsable: '',
     logo: undefined,
     constanciaCuit: undefined,
@@ -54,8 +54,8 @@ export default function RegistroDador() {
     // Aquí iría lógica real de registro
     setTimeout(() => {
       setLoading(false);
-      router.push('/dashboard-dador');
-    }, 1000);
+      router.push('/bienvenida-dador');
+    }, 100);
   };
 
   return (

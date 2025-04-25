@@ -5,6 +5,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
+
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-gray-200 shadow-sm w-full">
         <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
           <Link href="/" className="font-extrabold text-2xl tracking-tight text-orange-500 hover:underline focus:outline-none">Starting Point</Link>
@@ -158,11 +159,11 @@ export default function Home() {
     <footer className="w-full bg-gray-100 border-t border-gray-200 py-6 mt-8">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-2 text-sm text-gray-600">
         <div className="flex flex-wrap gap-4 mb-2 md:mb-0">
-          <Link href="/politica-privacidad" className="hover:underline hover:text-orange-500">Política de Privacidad</Link>
-          <Link href="/terminos-condiciones" className="hover:underline hover:text-orange-500">Términos y Condiciones</Link>
-          <Link href="/politica-cookies" className="hover:underline hover:text-orange-500">Política de Cookies</Link>
-          <Link href="/legales" className="hover:underline hover:text-orange-500">Legales</Link>
-          <Link href="/faq" className="hover:underline hover:text-orange-500">FAQ</Link>
+           <Link href="/politica-privacidad" className="hover:underline hover:text-orange-500">Política de Privacidad</Link>
+           <Link href="/terminos-condiciones" className="hover:underline hover:text-orange-500">Términos y Condiciones</Link>
+           <Link href="/politica-cookies" className="hover:underline hover:text-orange-500">Política de Cookies</Link>
+           <Link href="/contacto-legal" className="hover:underline hover:text-orange-500">Legales</Link>
+           <Link href="/faq" className="hover:underline hover:text-orange-500">FAQ</Link>
         </div>
         <div className="text-xs text-gray-400">&copy; {new Date().getFullYear()} Starting Point. Todos los derechos reservados.</div>
       </div>
