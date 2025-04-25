@@ -139,20 +139,27 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header propio del dashboard */}
+      {/* Header propio del dashboard transportista */}
       <header className="w-full flex items-center justify-between px-6 py-4 bg-white shadow-sm border-b mb-6">
-        <div className="flex items-center gap-3">
-          <img src={perfilMock.avatar} alt="Avatar" className="w-12 h-12 rounded-full border-2 border-orange-400" />
-          <div>
-            <div className="font-bold text-lg text-gray-900">{perfilMock.nombre}</div>
-            <div className="text-xs text-gray-500">{perfilMock.verificado ? '✔ Verificado' : 'No verificado'}</div>
-          </div>
-        </div>
+        <Link href="/" className="font-extrabold text-2xl tracking-tight text-orange-500 hover:underline focus:outline-none">Starting Point</Link>
         <div className="flex items-center gap-4">
-          <Link href="/" className="text-orange-500 hover:underline font-semibold">Ir a Starting Point</Link>
+          <div className="relative">
+            <button
+              className="focus:outline-none"
+              onClick={() => setShowMenu((v: boolean) => !v)}
+            >
+              <img src={perfilMock.avatar} alt="Avatar" className="w-10 h-10 rounded-full border-2 border-orange-400" />
+            </button>
+            {showMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-20 flex flex-col animate-fade-in">
+                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full" onClick={() => { setShowMenu(false); alert('Configurar perfil (demo)'); }}>Configurar perfil</button>
+                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full" onClick={() => { setShowMenu(false); alert('Cerrar sesión (demo)'); }}>Cerrar sesión</button>
+              </div>
+            )}
+          </div>
           <button
             className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg font-semibold shadow border border-gray-300"
-            onClick={() => {/* lógica de logout aquí */ alert('Cerrar sesión (demo)'); }}
+            onClick={() => { alert('Salir (demo)'); }}
           >
             Salir
           </button>
