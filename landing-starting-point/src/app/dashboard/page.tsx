@@ -151,9 +151,31 @@ export default function Dashboard() {
               <img src={perfilMock.avatar} alt="Avatar" className="w-10 h-10 rounded-full border-2 border-orange-400" />
             </button>
             {showMenu && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-20 flex flex-col animate-fade-in">
-                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full" onClick={() => { setShowMenu(false); alert('Configurar perfil (demo)'); }}>Configurar perfil</button>
-                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full" onClick={() => { setShowMenu(false); alert('Cerrar sesión (demo)'); }}>Cerrar sesión</button>
+              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border z-20 flex flex-col animate-fade-in">
+                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full border-b" onClick={() => { setShowMenu(false); alert('Ver perfil (demo)'); }}>
+                  <span className="font-semibold text-gray-800">👤 Ver perfil</span>
+                  <div className="text-xs text-gray-500">Ver información pública</div>
+                </button>
+                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full border-b" onClick={() => { setShowMenu(false); alert('Editar perfil/configuración (demo)'); }}>
+                  <span className="font-semibold text-gray-800">⚙️ Configuración</span>
+                  <div className="text-xs text-gray-500">Editar datos y preferencias</div>
+                </button>
+                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full border-b" onClick={() => { setShowMenu(false); alert('Agregar unidades (demo)'); }}>
+                  <span className="font-semibold text-gray-800">➕ Agregar unidades</span>
+                  <div className="text-xs text-gray-500">Registrar camiones/remolques</div>
+                </button>
+                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full border-b" onClick={() => { setShowMenu(false); alert('Mis documentos (demo)'); }}>
+                  <span className="font-semibold text-gray-800">📄 Mis documentos</span>
+                  <div className="text-xs text-gray-500">Licencias, seguros, etc.</div>
+                </button>
+                <button className="px-4 py-3 text-left hover:bg-gray-50 w-full border-b" onClick={() => { setShowMenu(false); alert('Ayuda (demo)'); }}>
+                  <span className="font-semibold text-gray-800">❓ Ayuda</span>
+                  <div className="text-xs text-gray-500">Preguntas frecuentes</div>
+                </button>
+                <div className="border-t my-1"></div>
+                <button className="px-4 py-3 text-left hover:bg-red-50 w-full text-red-600 font-semibold" onClick={() => { setShowMenu(false); alert('Cerrar sesión (demo)'); }}>
+                  🚪 Cerrar sesión
+                </button>
               </div>
             )}
           </div>
